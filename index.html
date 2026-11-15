@@ -1,21 +1,201 @@
-<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>BIKE RESQ | Roadside Assistance</title><link rel="stylesheet" href="/style.css"></head>
-<body><header class="top"><a class="brand" href="#">BIKE<span>RESQ</span></a><nav><a href="#services">Services</a><a href="#how">How it works</a><button id="accountBtn" class="outline">Login / Register</button></nav></header>
-<main><section class="hero"><div><p class="eyebrow">ROAD SIDE SUPPORT • WHEN YOU NEED IT</p><h1>BREAKDOWN?<br><em>WE'VE GOT YOUR BACK.</em></h1><p class="lead">Request trusted roadside assistance and keep moving with confidence.</p><button class="primary" id="startBtn">GET HELP NOW ↗</button></div><div class="hero-art"><div class="wheel">BR</div><p>RIDE SAFE. RIDE RESQ.</p></div></section>
-<section id="services"><p class="eyebrow">WHAT WE DO</p><h2>Choose your assistance</h2><div class="services">
-<button class="service" data-service="mechanic"><b>🔧</b><strong>Mechanic help</strong><small>Connect with a mechanic</small></button>
-<button class="service" data-service="puncture"><b>🛞</b><strong>Puncture help</strong><small>Tyre service assistance</small></button>
-<button class="service" data-service="towing"><b>🏍️</b><strong>Towing</strong><small>Arrange an approved towing provider</small></button>
-<button class="service" data-service="battery"><b>🔋</b><strong>Battery help</strong><small>Battery service assistance</small></button>
-<button class="service" data-service="petrol_referral"><b>⛽</b><strong>Petrol assistance</strong><small>Referral to an authorised fuel station</small></button>
-<button class="service" data-service="diesel_referral"><b>⛽</b><strong>Diesel assistance</strong><small>Referral to an authorised fuel station</small></button>
-</div><p class="note">Fuel assistance is referral-only. BIKE RESQ does not arrange independent fuel transport, storage or delivery.</p></section>
-<section id="how" class="how"><p class="eyebrow">SIMPLE PROCESS</p><h2>How BIKE RESQ works</h2><div class="steps"><article><b>01</b><h3>Choose a service</h3><p>Select the roadside help you need.</p></article><article><b>02</b><h3>Share location</h3><p>Allow location access and confirm the map pin.</p></article><article><b>03</b><h3>Get assistance</h3><p>An administrator assigns an approved provider.</p></article></div></section>
-<section class="auth" id="auth"><div><p class="eyebrow">YOUR ACCOUNT</p><h2>Login or create account</h2><p>Customers can request help. Partners can sign in to manage assigned jobs.</p></div><form id="authForm" class="panel"><div class="tabs"><button type="button" class="tab active" data-mode="login">Login</button><button type="button" class="tab" data-mode="register">Register</button></div><div id="registerFields" hidden><label>Full name<input name="name" autocomplete="name"></label><label>Phone<input name="phone" inputmode="numeric" maxlength="10"></label><label>Account type<select name="role"><option value="customer">Customer</option><option value="partner">Assistance partner</option></select></label><label>Partner service / skill<input name="service" placeholder="Mechanic, towing, puncture..."></label><label>Service area<input name="area" placeholder="Your service area"></label></div><label>Email<input name="email" type="email" required autocomplete="email"></label><label>Password<input name="password" type="password" required minlength="10" autocomplete="current-password"></label><button class="primary full" id="authSubmit">LOGIN</button><p id="authMsg" class="msg"></p></form></section>
-<section id="customerPanel" hidden><h2>Request roadside help</h2><form id="requestForm" class="panel"><label>Service<select name="service" required><option value="">Choose service</option><option value="mechanic">Mechanic help</option><option value="puncture">Puncture help</option><option value="towing">Towing</option><option value="battery">Battery help</option><option value="petrol_referral">Petrol station referral</option><option value="diesel_referral">Diesel station referral</option></select></label><label>Details<textarea name="details" maxlength="500" placeholder="Describe the issue"></textarea></label><button type="button" class="outline full" id="locBtn">USE MY CURRENT LOCATION</button><p id="locMsg" class="msg">Location is requested only when you press the button.</p><div id="map" class="map">Your confirmed location will appear here.</div><label>Location label<input name="location" required placeholder="Area / landmark"></label><input type="hidden" name="lat"><input type="hidden" name="lng"><button class="primary full">SUBMIT REQUEST</button><p class="msg" id="requestMsg"></p></form><h3>My requests</h3><div id="myRequests" class="cards"></div></section>
-<section id="partnerPanel" hidden><h2>Partner dashboard</h2><div class="stats" id="earningStats"></div><div class="panel"><h3>PhonePe payment details</h3><p class="note">Add a short payment note or QR image link supplied by your own PhonePe business setup. This demo does not process or transfer money.</p><label>Payment note<input id="phonepeNote" maxlength="100" placeholder="e.g. Ask me for my PhonePe QR"></label><button class="outline" id="savePayment">SAVE PAYMENT NOTE</button></div><h3>Assigned jobs</h3><div id="partnerJobs" class="cards"></div></section>
-<section id="adminPanel" hidden><h2>Admin dashboard</h2><div id="adminUsers" class="cards"></div><h3>Requests & assignment</h3><div id="adminRequests" class="cards"></div><h3>Partner earnings</h3><div id="adminEarnings" class="cards"></div></section>
-</main><footer><a class="brand" href="#">BIKE<span>RESQ</span></a><p>Roadside assistance connection platform.</p><small>Local development MVP • Protect your location and account credentials.</small></footer>
-<div class="floating" id="userBar" hidden><span id="who"></span><button class="outline" id="logoutBtn">LOG OUT</button></div>
-<script src="/app.js"></script></body></html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#080808">
+    <title>BIKE RESQ | Roadside Assistance</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="navbar">
+        <a href="#" class="logo">BIKE <span>RESQ</span></a>
+
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#services">Services</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+        </nav>
+
+        <a href="#services" class="nav-btn">Get Help</a>
+    </header>
+
+    <main>
+        <section class="hero" id="home">
+            <div class="hero-content">
+                <p class="tagline">24/7 ROADSIDE ASSISTANCE</p>
+
+                <h1>STUCK ON THE ROAD?<br>
+                    <span>WE RESQ YOU.</span>
+                </h1>
+
+                <p class="hero-description">
+                    Reliable roadside assistance for your journey.
+                    Find mechanic, puncture, towing and battery support.
+                </p>
+
+                <div class="hero-buttons">
+                    <a href="#services" class="primary-btn">Get Assistance</a>
+                    <a href="#about" class="secondary-btn">Learn More</a>
+                </div>
+
+                <div class="hero-stats">
+                    <div>
+                        <h3>24/7</h3>
+                        <p>Support</p>
+                    </div>
+                    <div>
+                        <h3>FAST</h3>
+                        <p>Response</p>
+                    </div>
+                    <div>
+                        <h3>SAFE</h3>
+                        <p>Journey</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-image">
+                <div class="bike-icon">🏍️</div>
+                <div class="image-label">YOUR ROADside RESCUE PARTNER</div>
+            </div>
+        </section>
+
+        <section class="services section" id="services">
+            <div class="section-heading">
+                <p class="tagline">WHAT WE OFFER</p>
+                <h2>OUR <span>SERVICES</span></h2>
+                <p>Choose the assistance you need.</p>
+            </div>
+
+            <div class="service-grid">
+
+                <div class="service-card">
+                    <div class="service-icon">🔧</div>
+                    <h3>Bike Mechanic</h3>
+                    <p>Request help for common bike breakdowns.</p>
+                    <button onclick="selectService('Bike Mechanic')">
+                        Request Help
+                    </button>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">🛞</div>
+                    <h3>Puncture Repair</h3>
+                    <p>Find assistance for tyre and puncture problems.</p>
+                    <button onclick="selectService('Puncture Repair')">
+                        Request Help
+                    </button>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">🚚</div>
+                    <h3>Towing Service</h3>
+                    <p>Request authorised vehicle towing assistance.</p>
+                    <button onclick="selectService('Towing Service')">
+                        Request Help
+                    </button>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">🔋</div>
+                    <h3>Battery Support</h3>
+                    <p>Get help with battery-related problems.</p>
+                    <button onclick="selectService('Battery Support')">
+                        Request Help
+                    </button>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">⛽</div>
+                    <h3>Petrol Assistance</h3>
+                    <p>Find nearby authorised petrol stations.</p>
+                    <button onclick="selectService('Petrol Assistance')">
+                        Find Station
+                    </button>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">⛽</div>
+                    <h3>Diesel Assistance</h3>
+                    <p>Find nearby authorised diesel stations.</p>
+                    <button onclick="selectService('Diesel Assistance')">
+                        Find Station
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="request-section section" id="request">
+            <div class="section-heading">
+                <p class="tagline">QUICK SUPPORT</p>
+                <h2>REQUEST <span>ASSISTANCE</span></h2>
+                <p>Choose your service and share your details.</p>
+            </div>
+
+            <form id="requestForm">
+                <label for="customerName">Your Name</label>
+                <input type="text" id="customerName"
+                    placeholder="Enter your name" required>
+
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone"
+                    placeholder="Enter your phone number"
+                    pattern="[0-9]{10}" required>
+
+                <label for="service">Select Service</label>
+                <select id="service" required>
+                    <option value="">Choose a service</option>
+                    <option>Bike Mechanic</option>
+                    <option>Puncture Repair</option>
+                    <option>Towing Service</option>
+                    <option>Battery Support</option>
+                    <option>Petrol Assistance</option>
+                    <option>Diesel Assistance</option>
+                </select>
+
+                <label for="location">Your Location</label>
+                <input type="text" id="location"
+                    placeholder="Enter your location" required>
+
+                <button type="submit" class="primary-btn">
+                    Submit Request
+                </button>
+
+                <p id="formMessage"></p>
+            </form>
+        </section>
+
+        <section class="about section" id="about">
+            <p class="tagline">ABOUT BIKE RESQ</p>
+            <h2>YOUR JOURNEY MATTERS.</h2>
+            <p>
+                BIKE RESQ aims to make roadside assistance simpler,
+                faster and more accessible. Our platform helps riders
+                connect with suitable assistance when they need it.
+            </p>
+        </section>
+
+        <section class="contact section" id="contact">
+            <p class="tagline">NEED HELP?</p>
+            <h2>CONTACT <span>US</span></h2>
+            <p>Have a question about BIKE RESQ?</p>
+            <a href="mailto:support@bikeresq.com" class="primary-btn">
+                Email Us
+            </a>
+        </section>
+    </main>
+
+    <footer>
+        <a href="#" class="logo">BIKE <span>RESQ</span></a>
+        <p>© 2026 BIKE RESQ. All rights reserved.</p>
+        <p>Ride Safe. Stay Ready.</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
