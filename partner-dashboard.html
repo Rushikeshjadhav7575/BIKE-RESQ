@@ -1,0 +1,94 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Partner Dashboard | BIKE RESQ</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="navbar">
+<a href="index.html" class="logo">BIKE <span>RESQ</span></a>
+<a href="index.html">Logout / Home</a>
+</header>
+
+<main class="section">
+<span class="tag">PARTNER CONTROL PANEL</span>
+<h1 style="font:900 48px 'Barlow Condensed';margin:15px 0">
+PARTNER <span style="color:#ffd400">DASHBOARD</span>
+</h1>
+
+<div class="service-grid">
+<div class="service-card">
+<h3>Availability</h3>
+<p id="availability">Offline</p>
+<button class="btn primary" id="availabilityBtn">GO ONLINE</button>
+</div>
+
+<div class="service-card">
+<h3>Total Requests</h3>
+<strong id="totalRequests" style="font-size:35px;color:#ffd400">0</strong>
+</div>
+</div>
+
+<h2 style="margin:45px 0 20px">DEMO BOOKINGS</h2>
+<div id="partnerBookings"></div>
+</main>
+
+<script>
+let online = false;
+
+document.getElementById("availabilityBtn").onclick = () => {
+  online = !online;
+  document.getElementById("availability").textContent =
+    online ? "Online" : "Offline";
+  document.getElementById("availabilityBtn").textContent =
+    online ? "GO OFFLINE" : "GO ONLINE";
+};
+
+function showBookings() {
+  const bookings = JSON.parse(
+    localStorage.getItem("bikeResqBookings") || "[]"
+  );
+
+  document.getElementById("totalRequests").textContent = bookings.length;
+
+  const container = document.getElementById("partnerBookings");
+  container.replaceChildren();
+
+  if (!bookings.length) {
+    container.textContent = "No demo bookings available.";
+    return;
+  }
+
+  bookings.forEach(booking => {
+    const card = document.createElement("div");
+    card.className = "service-card";
+    card.style.marginBottom = "15px";
+
+    const heading = document.createElement("h3");
+    heading.textContent = booking.service;
+
+    const info = document.createElement("p");
+    info.textContent = `ID: ${booking.id} | Customer: ${booking.name} | Phone: ${booking.phone} | Status: ${booking.status}`;
+
+    const status = document.createElement("button");
+    status.className = "btn primary";
+    status.textContent = "MARK COMPLETED";
+
+    status.onclick = () => {
+      booking.status = "Demo Completed";
+      localStorage.setItem("bikeResqBookings", JSON.stringify(bookings));
+      showBookings();
+    };
+
+    card.append(heading, info, status);
+    container.appendChild(card);
+  });
+}
+
+showBookings();
+</script>
+</body>
+</html>
