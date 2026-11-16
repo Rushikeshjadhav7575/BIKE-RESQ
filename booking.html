@@ -1,0 +1,58 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Request Assistance | BIKE RESQ</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="navbar">
+<a href="index.html" class="logo">BIKE <span>RESQ</span></a>
+<a href="index.html">← Back Home</a>
+</header>
+
+<main class="form-section">
+<div class="form-card">
+<span class="tag">EMERGENCY ASSISTANCE</span>
+<h1>REQUEST <span>HELP.</span></h1>
+<p>Tell us what happened. We'll help you get back on the road.</p>
+
+<form id="bookingForm">
+<label>Full Name</label>
+<input type="text" id="customerName" required placeholder="Your name">
+
+<label>Mobile Number</label>
+<input type="tel" id="phone" required pattern="[0-9]{10}" placeholder="10 digit mobile number">
+
+<label>Select Service</label>
+<select id="service" required>
+<option value="">Choose a service</option>
+<option value="Petrol Delivery">Petrol Delivery</option>
+<option value="Diesel Delivery">Diesel Delivery</option>
+<option value="Flat Tyre">Flat Tyre</option>
+<option value="Battery Assistance">Battery Assistance</option>
+<option value="Bike Breakdown">Bike Breakdown</option>
+</select>
+
+<label>Bike Model</label>
+<input type="text" id="bike" placeholder="Example: Honda Activa">
+
+<label>Your Location</label>
+<input type="text" id="location" placeholder="Enter your location" required>
+<button type="button" class="btn secondary location-btn" id="getLocation">📍 Use My GPS Location</button>
+
+<label>Describe Your Problem</label>
+<textarea id="problem" rows="4" placeholder="Explain your issue..."></textarea>
+
+<button type="submit" class="btn primary submit-btn">SUBMIT REQUEST →</button>
+<p id="bookingMessage" class="message" role="status"></p>
+</form>
+</div>
+</main>
+
+<script src="js/booking.js"></script>
+</body>
+</html>
