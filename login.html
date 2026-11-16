@@ -1,0 +1,38 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Login | BIKE RESQ</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="navbar">
+<a href="index.html" class="logo">BIKE <span>RESQ</span></a>
+<a href="index.html">← Home</a>
+</header>
+
+<main class="form-section">
+<div class="form-card">
+<span class="tag">WELCOME BACK</span>
+<h1>YOUR <span>ACCOUNT.</span></h1>
+<p>Login to continue to BIKE RESQ.</p>
+
+<form id="loginForm">
+<label>Email Address</label>
+<input type="email" id="loginEmail" required placeholder="Your email">
+
+<label>Password</label>
+<input type="password" id="loginPassword" required placeholder="Your password">
+
+<button class="btn primary submit-btn">LOGIN →</button>
+<p id="loginMessage" class="message"></p>
+</form>
+
+<p>New customer? <a href="register.html" style="color:#ffd400">Register here</a></p>
+</div>
+</main>
+<script src="js/auth.js"></script>
+</body>
+</html>
