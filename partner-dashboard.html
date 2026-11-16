@@ -191,31 +191,3 @@ loadBookings();
 
 </body>
 </html>
-```
-
-### 3. Test it
-
-1. Open `booking.html`.
-2. Submit a demo assistance request.
-3. Open `partner-dashboard.html` in the same browser.
-4. Click **GO ONLINE**.
-5. Accept the request.
-6. Mark it completed.
-
-**Important:** This is still a browser-only demonstration. Bookings are stored in local storage, so they won't automatically appear on another device or in another browser.
-
-### One question
-
-Where are you viewing BIKE RESQ?
-
-{@body const [platform,setPlatform] = DIL.useState("GitHub Pages")}
-<box border radius="lg" padding={3} gap={3}>
-  <radio-group direction="col" value={platform} onChange={setPlatform}>
-    <radio value="GitHub Pages">GitHub Pages</radio>
-    <radio value="VS Code Live Server">VS Code Live Server</radio>
-    <radio value="Local computer using HTML files">Directly opening HTML files</radio>
-  </radio-group>
-  <button block onClick={()=>GenUI.issueNewTurn("I am viewing BIKE RESQ using "+platform+". Help me fix the partner dashboard.")}>Submit</button>
-</box>
-
-After this, we can connect the dashboard to the real backend so customers' bookings appear for partners across devices.
