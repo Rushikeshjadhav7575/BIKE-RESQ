@@ -416,3 +416,12 @@ footer p {
   .form-card h1 { font-size: 40px; }
 }
 
+
+#navMenu a[href="partner-dashboard.html"] {
+  color: #ffd400;
+  font-weight: 800;
+}
+
+#navMenu a[href="partner-dashboard.html"]:hover {
+  color: #ffffff;
+}
