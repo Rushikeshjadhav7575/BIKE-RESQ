@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Track Booking | BIKE RESQ</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="navbar">
+<a href="index.html" class="logo">BIKE <span>RESQ</span></a>
+<a href="index.html">← Home</a>
+</header>
+
+<main class="form-section">
+<div class="form-card">
+<span class="tag">BOOKING TRACKER</span>
+<h1>TRACK <span>RESQ.</span></h1>
+<label>Booking ID</label>
+<input id="trackingId" placeholder="Enter your booking ID">
+<button class="btn primary submit-btn" id="trackButton">TRACK BOOKING →</button>
+<div id="trackingResult" class="message"></div>
+</div>
+</main>
+<script>
+document.getElementById("trackButton").addEventListener("click", () => {
+  const id = document.getElementById("trackingId").value.trim();
+  const bookings = JSON.parse(localStorage.getItem("bikeResqBookings") || "[]");
+  const booking = bookings.find(item => item.id === id);
+  const result = document.getElementById("trackingResult");
+
+  if (!booking) {
+    result.textContent = "Booking not found in this browser.";
+    return;
+  }
+
+  result.innerHTML = `
+    <hr style="margin:20px 0;border-color:#444">
+    <h3>${booking.service}</h3>
+    <p>Booking: ${booking.id}</p>
+    <p>Status: ${booking.status}</p>
+    <p>Location: ${booking.location}</p>
+    <p>Name: ${booking.name}</p>
+    <p>This is a demo status, not live partner tracking.</p>
+  `;
+});
+
+const params = new URLSearchParams(location.search);
+if (params.has("id")) {
+  document.getElementById("trackingId").value = params.get("id");
+  document.getElementById("trackButton").click();
+}
+</script>
+</body>
+</html>
