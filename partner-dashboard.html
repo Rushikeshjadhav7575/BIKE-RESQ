@@ -2,93 +2,220 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Partner Dashboard | BIKE RESQ</title>
-<link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BIKE RESQ | Partner Dashboard</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .dashboard { padding: 45px 7%; }
+    .dashboard-header {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      flex-wrap:wrap;
+      gap:15px;
+      margin-bottom:30px;
+    }
+    .dashboard h1 {
+      font:900 45px 'Barlow Condensed',sans-serif;
+    }
+    .dashboard h1 span { color:#ffd400; }
+    .stats {
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:20px;
+      margin:25px 0;
+    }
+    .stat-card,.job-card {
+      background:#151515;
+      border:1px solid #333;
+      border-radius:8px;
+      padding:25px;
+      margin-bottom:15px;
+    }
+    .stat-card h2 { color:#ffd400;font-size:32px; }
+    .job-card h3 { color:#ffd400;margin-bottom:12px; }
+    .job-card p { color:#ccc;margin:8px 0;font-size:13px; }
+    .dashboard button {
+      cursor:pointer;border:0;margin:8px 8px 0 0;
+    }
+    .status { color:#ffd400;font-weight:bold; }
+    @media(max-width:650px) {
+      .stats { grid-template-columns:1fr; }
+      .dashboard h1 { font-size:35px; }
+    }
+  </style>
 </head>
+
 <body>
+
 <header class="navbar">
-<a href="index.html" class="logo">BIKE <span>RESQ</span></a>
-<a href="index.html">Logout / Home</a>
+  <a href="index.html" class="logo">BIKE <span>RESQ</span></a>
+  <a href="index.html">Home</a>
 </header>
 
-<main class="section">
-<span class="tag">PARTNER CONTROL PANEL</span>
-<h1 style="font:900 48px 'Barlow Condensed';margin:15px 0">
-PARTNER <span style="color:#ffd400">DASHBOARD</span>
-</h1>
+<main class="dashboard">
 
-<div class="service-grid">
-<div class="service-card">
-<h3>Availability</h3>
-<p id="availability">Offline</p>
-<button class="btn primary" id="availabilityBtn">GO ONLINE</button>
-</div>
+  <div class="dashboard-header">
+    <div>
+      <span class="tag">PARTNER CONTROL PANEL</span>
+      <h1>PARTNER <span>DASHBOARD</span></h1>
+      <p style="color:#aaa">Manage your assistance requests.</p>
+    </div>
 
-<div class="service-card">
-<h3>Total Requests</h3>
-<strong id="totalRequests" style="font-size:35px;color:#ffd400">0</strong>
-</div>
-</div>
+    <button class="btn primary" id="onlineBtn">GO ONLINE</button>
+  </div>
 
-<h2 style="margin:45px 0 20px">DEMO BOOKINGS</h2>
-<div id="partnerBookings"></div>
+  <div class="stats">
+    <div class="stat-card">
+      <p>Total Bookings</p>
+      <h2 id="total">0</h2>
+    </div>
+    <div class="stat-card">
+      <p>Pending Bookings</p>
+      <h2 id="pending">0</h2>
+    </div>
+    <div class="stat-card">
+      <p>Completed Bookings</p>
+      <h2 id="completed">0</h2>
+    </div>
+  </div>
+
+  <h2 style="margin:35px 0 20px">AVAILABLE REQUESTS</h2>
+  <div id="bookingList">
+    Loading bookings...
+  </div>
+
 </main>
 
 <script>
-let online = false;
+let isOnline = false;
 
-document.getElementById("availabilityBtn").onclick = () => {
-  online = !online;
-  document.getElementById("availability").textContent =
-    online ? "Online" : "Offline";
-  document.getElementById("availabilityBtn").textContent =
-    online ? "GO OFFLINE" : "GO ONLINE";
-};
+const onlineBtn = document.getElementById("onlineBtn");
 
-function showBookings() {
+onlineBtn.addEventListener("click", () => {
+  isOnline = !isOnline;
+  onlineBtn.textContent = isOnline ? "GO OFFLINE" : "GO ONLINE";
+  onlineBtn.style.background = isOnline ? "#22c55e" : "#ffd400";
+});
+
+function loadBookings() {
   const bookings = JSON.parse(
     localStorage.getItem("bikeResqBookings") || "[]"
   );
 
-  document.getElementById("totalRequests").textContent = bookings.length;
+  document.getElementById("total").textContent = bookings.length;
 
-  const container = document.getElementById("partnerBookings");
-  container.replaceChildren();
+  document.getElementById("pending").textContent =
+    bookings.filter(b => b.status !== "Demo Completed").length;
 
-  if (!bookings.length) {
-    container.textContent = "No demo bookings available.";
+  document.getElementById("completed").textContent =
+    bookings.filter(b => b.status === "Demo Completed").length;
+
+  const list = document.getElementById("bookingList");
+  list.replaceChildren();
+
+  if (bookings.length === 0) {
+    list.textContent = "No bookings available. Submit a demo request first.";
     return;
   }
 
-  bookings.forEach(booking => {
+  bookings.forEach((booking, index) => {
     const card = document.createElement("div");
-    card.className = "service-card";
-    card.style.marginBottom = "15px";
+    card.className = "job-card";
 
-    const heading = document.createElement("h3");
-    heading.textContent = booking.service;
+    const title = document.createElement("h3");
+    title.textContent = booking.service || "Assistance";
 
-    const info = document.createElement("p");
-    info.textContent = `ID: ${booking.id} | Customer: ${booking.name} | Phone: ${booking.phone} | Status: ${booking.status}`;
+    const details = [
+      "Booking ID: " + booking.id,
+      "Customer: " + booking.name,
+      "Phone: " + booking.phone,
+      "Bike: " + (booking.bike || "Not provided"),
+      "Location: " + booking.location,
+      "Problem: " + (booking.problem || "Not specified"),
+      "Status: " + booking.status
+    ];
 
-    const status = document.createElement("button");
-    status.className = "btn primary";
-    status.textContent = "MARK COMPLETED";
+    card.appendChild(title);
 
-    status.onclick = () => {
-      booking.status = "Demo Completed";
-      localStorage.setItem("bikeResqBookings", JSON.stringify(bookings));
-      showBookings();
-    };
+    details.forEach(item => {
+      const p = document.createElement("p");
+      p.textContent = item;
+      card.appendChild(p);
+    });
 
-    card.append(heading, info, status);
-    container.appendChild(card);
+    if (booking.status !== "Demo Completed") {
+      const accept = document.createElement("button");
+      accept.className = "btn primary";
+      accept.textContent = "ACCEPT REQUEST";
+
+      accept.onclick = () => {
+        if (!isOnline) {
+          alert("Please go online first.");
+          return;
+        }
+
+        booking.status = "Accepted";
+        saveBookings(bookings);
+      };
+
+      const complete = document.createElement("button");
+      complete.className = "btn secondary";
+      complete.textContent = "MARK COMPLETED";
+
+      complete.onclick = () => {
+        if (booking.status !== "Accepted") {
+          alert("Accept the request first.");
+          return;
+        }
+
+        booking.status = "Demo Completed";
+        saveBookings(bookings);
+      };
+
+      card.append(accept, complete);
+    }
+
+    list.appendChild(card);
   });
 }
 
-showBookings();
+function saveBookings(bookings) {
+  localStorage.setItem("bikeResqBookings", JSON.stringify(bookings));
+  loadBookings();
+}
+
+loadBookings();
 </script>
+
 </body>
 </html>
+```
+
+### 3. Test it
+
+1. Open `booking.html`.
+2. Submit a demo assistance request.
+3. Open `partner-dashboard.html` in the same browser.
+4. Click **GO ONLINE**.
+5. Accept the request.
+6. Mark it completed.
+
+**Important:** This is still a browser-only demonstration. Bookings are stored in local storage, so they won't automatically appear on another device or in another browser.
+
+### One question
+
+Where are you viewing BIKE RESQ?
+
+{@body const [platform,setPlatform] = DIL.useState("GitHub Pages")}
+<box border radius="lg" padding={3} gap={3}>
+  <radio-group direction="col" value={platform} onChange={setPlatform}>
+    <radio value="GitHub Pages">GitHub Pages</radio>
+    <radio value="VS Code Live Server">VS Code Live Server</radio>
+    <radio value="Local computer using HTML files">Directly opening HTML files</radio>
+  </radio-group>
+  <button block onClick={()=>GenUI.issueNewTurn("I am viewing BIKE RESQ using "+platform+". Help me fix the partner dashboard.")}>Submit</button>
+</box>
+
+After this, we can connect the dashboard to the real backend so customers' bookings appear for partners across devices.
