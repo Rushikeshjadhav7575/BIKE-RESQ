@@ -1,0 +1,44 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Register | BIKE RESQ</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="navbar">
+<a href="index.html" class="logo">BIKE <span>RESQ</span></a>
+<a href="index.html">← Home</a>
+</header>
+
+<main class="form-section">
+<div class="form-card">
+<span class="tag">JOIN BIKE RESQ</span>
+<h1>CREATE <span>ACCOUNT.</span></h1>
+<p>Register to request roadside assistance.</p>
+
+<form id="registerForm">
+<label>Full Name</label>
+<input id="regName" required placeholder="Your full name">
+
+<label>Mobile Number</label>
+<input id="regPhone" type="tel" pattern="[0-9]{10}" required placeholder="10 digit number">
+
+<label>Email Address</label>
+<input id="regEmail" type="email" required placeholder="Your email">
+
+<label>Password</label>
+<input id="regPassword" type="password" minlength="8" required placeholder="Minimum 8 characters">
+
+<button class="btn primary submit-btn">CREATE ACCOUNT →</button>
+<p class="message" id="registerMessage"></p>
+</form>
+
+<p>Already registered? <a href="login.html" style="color:#ffd400">Login here</a></p>
+</div>
+</main>
+<script src="js/auth.js"></script>
+</body>
+</html>
